@@ -31,6 +31,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /root/projects/api.maxkruiswegt.com/
+            trap 'if [ $? -eq 14 ]; then echo "Could not find a docker-compose file."; exit 0; fi' ERR
             docker compose down
 
       - name: Stop Application on Server

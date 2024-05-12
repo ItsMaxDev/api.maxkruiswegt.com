@@ -43,7 +43,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
-              kill -SIGKILL $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar') || true
+              (kill -SIGKILL $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar') || true)
               echo "Application stopped."
             else
                 echo "Application not running."

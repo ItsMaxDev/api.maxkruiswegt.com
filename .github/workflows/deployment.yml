@@ -42,7 +42,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            trap 'echo "Stopped all running applications"; exit 0' SIGTERM
+            trap 'if [ $? -eq 137 ]; then echo "Stopped all running applications"; exit 0; fi' ERR
             if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
               kill -SIGKILL $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar')
             fi

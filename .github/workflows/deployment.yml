@@ -31,10 +31,10 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script:
             if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
-              pkill -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar'
+              pkill -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar';
             else
-              echo "No running instance of the application found."
-            fi
+              echo "No running instance of the application found.";
+            fi;
 
       - name: Copy JAR file to Server
         uses: appleboy/scp-action@v0.1.7

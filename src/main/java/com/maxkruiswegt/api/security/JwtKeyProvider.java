@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,7 +44,7 @@ public class JwtKeyProvider {
         // Check if the application is running from a JAR file
         if (Objects.requireNonNull(JwtKeyProvider.class.getResource("")).toString().startsWith("jar:")) {
             // Get the path of the JAR file
-            String jarPath = new File(JwtKeyProvider.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+            String jarPath = Paths.get(JwtKeyProvider.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent().toString();
 
             // Build the path of the store.p12 file
             Path keyStorePath = Paths.get(jarPath, keystore);

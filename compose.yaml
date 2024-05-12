@@ -1,8 +1,11 @@
 services:
   mariadb:
     image: 'mariadb:latest'
-    env_file:
-      - .env
+    environment:
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_USER=${MARIADB_USER}
     ports:
       - '127.0.0.1:3307:3306'
     volumes:

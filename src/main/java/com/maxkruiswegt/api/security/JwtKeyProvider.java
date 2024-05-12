@@ -1,10 +1,9 @@
 package com.maxkruiswegt.api.security;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -17,24 +16,20 @@ import java.security.PublicKey;
 @Configuration
 public class JwtKeyProvider {
 
-    private final String keystore;
+    @Value("${JWT_KEYSTORE}")
+    private String keystore;
 
-    private final String alias;
+    @Value("${JWT_ALIAS}")
+    private String alias;
 
-    private final String password;
+    @Value("${JWT_PASSWORD}")
+    private String password;
 
     @Getter
     private Key privateKey;
 
     @Getter
     private PublicKey publicKey;
-
-    public JwtKeyProvider() {
-        Dotenv dotenv = Dotenv.load();
-        keystore = dotenv.get("JWT_KEYSTORE");
-        alias = dotenv.get("JWT_ALIAS");
-        password = dotenv.get("JWT_PASSWORD");
-    }
 
     @PostConstruct
     public void init() throws Exception {

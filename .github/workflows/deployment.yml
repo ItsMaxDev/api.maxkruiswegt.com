@@ -22,6 +22,17 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
+      - name: Stop Docker Compose on Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /root/projects/api.maxkruiswegt.com/
+            docker compose down
+
       - name: Stop Application on Server
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -37,6 +48,16 @@ jobs:
               echo "No running instance of the application found."
             fi
 
+      - name: Copy Docker Compose file to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "compose.yaml"
+          target: "/root/projects/api.maxkruiswegt.com/"
+
       - name: Copy JAR file to Server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -48,7 +69,18 @@ jobs:
           target: "/root/projects/api.maxkruiswegt.com/"
           strip_components: 1
 
-      - name: Run Application on Server
+      - name: Start Docker Compose on Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /root/projects/api.maxkruiswegt.com/
+            docker compose up -d
+
+      - name: Start Application on Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}

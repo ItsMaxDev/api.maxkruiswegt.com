@@ -37,6 +37,7 @@ jobs:
             else
               echo "No running application found";
             fi
+            exit 0
 
       - name: Copy JAR file to Server
         uses: appleboy/scp-action@v0.1.7

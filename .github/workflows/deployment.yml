@@ -34,20 +34,20 @@ jobs:
             trap 'if [ $? -eq 14 ]; then echo "Could not find a docker-compose file."; exit 0; fi' ERR
             docker compose down
 
-      - name: Stop Application on Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            trap 'if [ $? -eq 143 ]; then echo "Stopped the running application."; exit 0; fi' TERM
-            if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
-              kill -SIGTERM $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar') || true
-            else
-              echo "Application not running."
-            fi
+#      - name: Stop Application on Server
+#        uses: appleboy/ssh-action@v1.0.3
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          port: ${{ secrets.SSH_PORT }}
+#          script: |
+#            trap 'if [ $? -eq 143 ]; then echo "Stopped the running application."; exit 0; fi' TERM
+#            if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
+#              kill -SIGTERM $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar') || true
+#            else
+#              echo "Application not running."
+#            fi
 
       - name: Copy Docker Compose file to Server
         uses: appleboy/scp-action@v0.1.7

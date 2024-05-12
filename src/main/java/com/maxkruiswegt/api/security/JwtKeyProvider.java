@@ -42,6 +42,8 @@ public class JwtKeyProvider {
 
         // Check if the application is running from a JAR file
         if (System.getProperty("java.class.path").contains("jar:")) {
+            System.out.println("Running from JAR file");
+
             // Get the current working directory
             String currentDirectory = System.getProperty("user.dir");
 
@@ -51,6 +53,8 @@ public class JwtKeyProvider {
             // Load the file
             keyStoreInputStream = Files.newInputStream(keyStorePath);
         } else {
+            System.out.println("Running from IDE");
+
             // Load the file from the classpath
             keyStoreInputStream = new ClassPathResource(keystore).getInputStream();
         }

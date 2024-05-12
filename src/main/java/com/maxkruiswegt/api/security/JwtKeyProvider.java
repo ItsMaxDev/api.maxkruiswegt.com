@@ -38,35 +38,18 @@ public class JwtKeyProvider {
 
     @PostConstruct
     public void init() throws Exception {
-        InputStream keyStoreInputStream;
+        // Get the current working directory
+        String currentDirectory = System.getProperty("user.dir");
 
-        // Check if the application is running from a JAR file
-        if (System.getProperty("java.class.path").contains("jar:")) {
-            System.out.println("Running from JAR file");
+        // Build the path of the store.p12 file
+        Path keyStorePath = Paths.get(currentDirectory, keystore);
 
-            // Get the current working directory
-            String currentDirectory = System.getProperty("user.dir");
-
-            // Build the path of the store.p12 file
-            Path keyStorePath = Paths.get(currentDirectory, keystore);
-
-            // Load the file
-            keyStoreInputStream = Files.newInputStream(keyStorePath);
-        } else {
-            System.out.println("Running from IDE");
-
-            // Load the file from the classpath
-            keyStoreInputStream = new ClassPathResource(keystore).getInputStream();
-        }
-
-        try {
+        try (InputStream keyStoreInputStream = Files.newInputStream(keyStorePath)) {
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(keyStoreInputStream, password.toCharArray());
 
             privateKey = keyStore.getKey(alias, password.toCharArray());
             publicKey = keyStore.getCertificate(alias).getPublicKey();
-        } finally {
-            keyStoreInputStream.close();
         }
     }
 }

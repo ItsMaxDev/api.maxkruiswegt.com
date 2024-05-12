@@ -30,13 +30,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            PID=$(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar')
-            if [ -z "$PID" ]
-            then
-              echo "No running application found"
+            trap 'echo "No running application found"; exit 0' SIGTERM
+            if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
+              pkill -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar'
             else
-              kill $PID
-              echo "Application stopped"
+              echo "No running instance of the application found."
             fi
 
       - name: Copy JAR file to Server

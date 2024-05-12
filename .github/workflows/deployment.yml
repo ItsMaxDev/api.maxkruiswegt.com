@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
@@ -30,7 +30,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            pkill -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null 2>&1;
+            pkill -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null 2>&1 || true
 
       - name: Copy JAR file to Server
         uses: appleboy/scp-action@v0.1.7

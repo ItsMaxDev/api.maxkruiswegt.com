@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.PublicKey;
-import java.util.Objects;
 
 @Configuration
 public class JwtKeyProvider {
@@ -42,12 +41,12 @@ public class JwtKeyProvider {
         InputStream keyStoreInputStream;
 
         // Check if the application is running from a JAR file
-        if (Objects.requireNonNull(JwtKeyProvider.class.getResource("")).toString().startsWith("jar:")) {
-            // Get the path of the JAR file
-            String jarPath = Paths.get(JwtKeyProvider.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent().toString();
+        if (System.getProperty("java.class.path").contains("jar:")) {
+            // Get the current working directory
+            String currentDirectory = System.getProperty("user.dir");
 
             // Build the path of the store.p12 file
-            Path keyStorePath = Paths.get(jarPath, keystore);
+            Path keyStorePath = Paths.get(currentDirectory, keystore);
 
             // Load the file
             keyStoreInputStream = Files.newInputStream(keyStorePath);

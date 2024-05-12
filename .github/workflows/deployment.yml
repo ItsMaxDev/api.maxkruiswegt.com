@@ -42,11 +42,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            trap 'if [ $? -eq 137 ]; then echo "Application stopped."; exit 0; fi' EXIT
             if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
-              (kill -SIGKILL $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar') || true)
+              kill -SIGTERM $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar') || true
+              exit 0;
             else
-                echo "Application not running."
+              echo "Application not running."
+              exit 0;
             fi
 
       - name: Copy Docker Compose file to Server

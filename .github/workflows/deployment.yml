@@ -42,11 +42,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            trap 'echo "No running application found"; exit 0' SIGTERM
+            trap 'echo "Stopped all running applications"; exit 0' SIGTERM
             if pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar' > /dev/null; then
-              pkill -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar'
-            else
-              echo "No running instance of the application found."
+              kill -SIGKILL $(pgrep -f 'java -jar /root/projects/api.maxkruiswegt.com/api-0.0.1-SNAPSHOT.jar')
             fi
 
       - name: Copy Docker Compose file to Server

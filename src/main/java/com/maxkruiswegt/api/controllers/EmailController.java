@@ -59,12 +59,12 @@ public class EmailController {
             // Send the email to the user to confirm the email was sent
             if (contactForm.getLocale().equals("nl")) {
                 emailService.sendEmail(contactForm.getEmail(), "Email verzonden",
-                        String.format("Hey %s,<br>je bericht is ontvangen en ik zal er zo snel mogelijk naar kijken.<br><br>Met vriendelijke groet,<br>%s<br><br><a href=\"%s\">%s</a><br>%s<br><br><b>Bekijk hieronder je bericht:</b><br>%s",
+                        String.format("Hey %s,<br>Je bericht is ontvangen en ik zal er zo snel mogelijk naar kijken.<br><br>Met vriendelijke groet,<br>%s<br><br><a href=\"%s\">%s</a><br>%s<br><br><b>Bekijk hieronder je bericht:</b><br>%s",
                                 contactForm.getName(), System.getProperty("RESEND_FROM_NAME"), "https://maxkruiswegt.com", "maxkruiswegt.com", "info@maxkruiswegt.com", contactForm.getMessage()));
                 return ResponseEntity.ok(Map.of("message", "Email succesvol verzonden"));
             } else {
                 emailService.sendEmail(contactForm.getEmail(), "Email sent",
-                        String.format("Hey %s,<br>your message has been received and I will look at it as soon as possible.<br><br>Kind regards,<br>%s<br><br><a href=\"%s\">%s</a><br>%s<br><br><b>Below is your message:</b><br>%s",
+                        String.format("Hey %s,<br>Your message has been received and I will look at it as soon as possible.<br><br>Kind regards,<br>%s<br><br><a href=\"%s\">%s</a><br>%s<br><br><b>Below is your message:</b><br>%s",
                                 contactForm.getName(), System.getProperty("RESEND_FROM_NAME"), "https://maxkruiswegt.com", "maxkruiswegt.com", "info@maxkruiswegt.com", contactForm.getMessage()));
                 return ResponseEntity.ok(Map.of("message", "Email sent successfully"));
             }

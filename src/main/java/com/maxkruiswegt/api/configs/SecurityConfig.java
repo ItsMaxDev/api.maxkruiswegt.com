@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Allowing unauthenticated requests to the login and register endpoints
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/login", "/register").permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/login", "/contact").permitAll());
 
         // Enabling authorization checks for all other requests
         http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());

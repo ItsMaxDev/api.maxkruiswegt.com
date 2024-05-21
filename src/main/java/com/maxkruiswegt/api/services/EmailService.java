@@ -14,6 +14,10 @@ public class EmailService {
     private final String fromName;
 
     public EmailService() {
+        if (System.getProperty("RESEND_API_KEY") == null || System.getProperty("RESEND_FROM_EMAIL") == null || System.getProperty("RESEND_FROM_NAME") == null || System.getProperty("RESEND_CONTACT_EMAIL") == null) {
+            throw new NullPointerException("RESEND_API_KEY, RESEND_FROM_EMAIL, RESEND_FROM_NAME, and RESEND_CONTACT_EMAIL must be set in the environment");
+        }
+
         this.resend = new Resend(System.getProperty("RESEND_API_KEY"));
         this.fromEmail = System.getProperty("RESEND_FROM_EMAIL");
         this.fromName = System.getProperty("RESEND_FROM_NAME");
